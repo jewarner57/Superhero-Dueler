@@ -10,6 +10,8 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = self.starting_health
+        self.deaths = 0
+        self.kills = 0
 
     def fight(self, opponent):
         """Current Hero will take turns fighting
@@ -17,6 +19,7 @@ class Hero:
 
         if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             print("Draw")
+            return 0
 
         while opponent.is_alive() and self.is_alive():
             opponent.take_damage(self.attack())
@@ -24,8 +27,15 @@ class Hero:
 
         if opponent.is_alive():
             print(f"{opponent.name} won!")
+
+            opponent.add_kill(1)
+            self.add_death(1)
+
         elif self.is_alive():
             print(f"{self.name} won!")
+
+            self.add_kill(1)
+            opponent.add_death(1)
 
     def add_weapon(self, weapon):
         """Add weapon to self.abilities"""
@@ -73,6 +83,12 @@ class Hero:
         """Return True or False depending on whether
         the hero is alive or not."""
         return self.current_health > 0
+
+    def add_kill(self, num_kills):
+        self.kills += num_kills
+
+    def add_death(self, num_deaths):
+        self.deaths += num_deaths
 
 
 if __name__ == "__main__":
