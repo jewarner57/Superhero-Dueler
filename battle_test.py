@@ -36,7 +36,8 @@ def create_armor():
         "Wall of Will",
         "Wall of Walls",
         "Obamacare",
-        "Thick Goo"]
+        "Thick Goo",
+    ]
     name = armors[random.randint(0, len(armors) - 1)]
     power = random.randint(23, 700000)
     return Armor(name, power)
@@ -54,7 +55,8 @@ def create_weapon():
         "Blinding Lights",
         "Ferociousness",
         "Speed of Hermes",
-        "Lightning Bolts"]
+        "Lightning Bolts",
+    ]
     name = weapons[random.randint(0, len(weapons) - 1)]
     power = random.randint(27, 700000)
     return Weapon(name, power)
@@ -75,7 +77,8 @@ def create_ability():
         "The Kraken",
         "The Fire of A Million Suns",
         "Team Spirit",
-        "Canada"]
+        "Canada",
+    ]
     name = abilities[random.randint(0, len(abilities) - 1)]
     power = random.randint(45, 700000)
     return Ability(name, power)
@@ -106,7 +109,8 @@ def create_hero(weapons=False, armors=False, health=False):
         "San Luis Obispo",
         "Ted Kennedy",
         "San Francisco",
-        "Bananas"]
+        "Bananas",
+    ]
     name = heroes[random.randint(0, len(heroes) - 1)]
     if health:
         power = health
@@ -147,7 +151,8 @@ def create_team(heroes=[]):
         "Winky Bears",
         "Steelsmiths",
         "Boilermakers",
-        "Nincompoops"]
+        "Nincompoops",
+    ]
     name = teams[random.randint(0, len(teams) - 1)]
     team = Team(name)
     if len(heroes) > 0:
@@ -170,16 +175,16 @@ def create_set():
     for _ in range(0, ability_ct):
         abilities.append(create_ability())
 
-    hero_set = {'weapons': abilities, 'armors': armors}
+    hero_set = {"weapons": abilities, "armors": armors}
     return hero_set
 
 
 # Test Armor
 def test_armor():
-    armor = Armor("The Ring", 200)
+    armor = Hero("The Ring", 200)
     for _ in range(0, 500):
         defense = armor.defend()
-        assert (defense <= 200 and defense >= 0)
+        assert defense <= 200 and defense >= 0
 
 
 # Test Hero
@@ -188,6 +193,7 @@ def test_armor():
 def test_hero_initialize_health():
     jodie = Hero("Jodie Foster")
     assert jodie.current_health == 100
+
 
 def test_hero_default_starting_health():
     jodie = Hero("Jodie Foster")
@@ -230,8 +236,8 @@ def test_hero_defend_multi_armor():
 def test_hero_attack():
     flash = Hero("The Flash")
     assert flash.attack() == 0
-    pesto = Ability("Pesto Sauce", 8000)
-    flash.add_ability(pesto)
+    pesto = Weapon("Pesto Sauce", 8000)
+    flash.add_weapon(pesto)
     attack = flash.attack()
     assert attack <= 8000 and attack >= 4000
 
@@ -250,11 +256,11 @@ def test_team_attack():
     socks = Armor("Socks", 10)
     athena.add_armor(socks)
     team_two.add_hero(athena)
-    assert team_two.heroes[0].health == 100
+    assert team_two.heroes[0].current_health == 100
 
     team_one.attack(team_two)
 
-    assert team_two.heroes[0].health <= 0
+    assert team_two.heroes[0].current_health <= 0
 
 
 def test_team_attack_kills():
